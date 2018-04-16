@@ -1,0 +1,161 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Bank",
+		"_postman_id": "458bce11-ce80-d5e0-185e-da68127cfe5d",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "login",
+			"request": {
+				"url": "http://localhost:8000/api/login",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"grant_type\":\"password\",\n\t\"client_id\": 1,\n\t\"client_secret\":\"secret\",\n\t\"username\":\"andres@challenge.com\",\n\t\"password\":\"123123\",\n\t\"scope\":\"*\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "create_loans",
+			"request": {
+				"url": "http://localhost:8000/api/loans",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"amount\":10000,\n\t\"term\":24,\n\t\"rate\":0.05,\n\t\"date\":\"2016-08-05 02:18Z\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get_loans",
+			"request": {
+				"url": {
+					"raw": "http://localhost:8000/api/loans?from=2017-08-05&to=2019-08-05",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"loans"
+					],
+					"query": [
+						{
+							"key": "from",
+							"value": "2017-08-05",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "to",
+							"value": "2019-08-05",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "create_payment_made",
+			"request": {
+				"url": "http://localhost:8000/api/loans/1/payments",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"payment\": \"made\",\n\"date\": \"2017-09-05 02:18Z\",\n\"amount\": 85.60\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "create_payment_missed",
+			"request": {
+				"url": "http://localhost:8000/api/loans/8/payments",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"payment\": \"missed\",\n\"date\": \"2018-10-05 02:18Z\",\n\"amount\": 85.60\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get_balance",
+			"request": {
+				"url": {
+					"raw": "http://localhost:8000/api/loans/1/balance?date=2018-08-05",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"loans",
+						"1",
+						"balance"
+					],
+					"query": [
+						{
+							"key": "date",
+							"value": "2018-08-05",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

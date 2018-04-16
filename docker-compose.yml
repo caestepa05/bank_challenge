@@ -1,0 +1,62 @@
+version: '2'
+
+services:
+
+ database:
+  image: mysql:5.5.56
+  environment:
+   - MYSQL_ROOT_PASSWORD=endeev
+   - MYSQL_DATABASE=bank
+   - MYSQL_USER=endeev
+   - MYSQL_PASSWORD=123456
+  volumes:
+   - $PWD/Database/storage:/var/lib/mysql
+  tty: true
+
+ phpmyadmin:
+  image: phpmyadmin/phpmyadmin:latest
+  environment:
+    - MYSQL_ROOT_PASSWORD=endeev
+    - MYSQL_USER=endeev
+    - MYSQL_PASSWORD=123456
+    - PMA_HOST=database
+    - PMA_USER=endeev
+    - PMA_PASSWORD=123456
+  depends_on:
+    - database
+  ports:
+    - 8080:80
+
+ laravel:
+  build:
+      context: $PWD/docker
+      dockerfile: ./Dockerfile
+  tty: true
+  volumes: 
+    - $PWD/code/challenge:/var/www/html
+  ports:  
+    - 8000:80
+  depends_on:
+    - database
+
+ mailcatcher:
+  image: schickling/mailcatcher:latest
+  environment:
+   MAIL_HOST: mailcatcher
+   MAIL_PORT: 1025
+  ports: 
+   - 1025:1025
+   - 1080:1080
+  tty: true
+  depends_on:
+   - laravel
+
+ selenium:
+  image: selenium/standalone-chrome
+  volumes:
+    - /dev/shm:/dev/shm
+  ports:
+    - 4444:4444
+  depends_on:
+    - mailcatcher
+  network_mode: "host"
