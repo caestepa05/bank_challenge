@@ -123,7 +123,7 @@ class Loans extends Model
 
     public function getBalanceUntilDate($date)
     {
-        $allPayments = $this->payments()->where('date', '<=', $date);
+        $allPayments = $this->payments()->where('date', '<=', $date)->get();
         $total = $this->installment()*$this->term;
         foreach($allPayments as $payment)
         {
