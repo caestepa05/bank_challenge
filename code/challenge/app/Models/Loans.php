@@ -54,7 +54,7 @@ class Loans extends Model
      */
     public function user()
     {
-        return $this->belongsTo('GoShow\Models\User');
+        return $this->belongsTo('App\Models\User');
     }
 
     /**
