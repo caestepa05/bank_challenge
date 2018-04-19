@@ -15,8 +15,8 @@ trait RestExceptionHandlerTrait
     /**
      * Creates a new JSON response based on exception type.
      *
-     * @param Request $request
-     * @param Exception $e
+     * @param  Request   $request
+     * @param  Exception $e
      * @return \Illuminate\Http\JsonResponse
      */
     protected function getResponseForException(Request $request, Exception $e)
@@ -31,20 +31,20 @@ trait RestExceptionHandlerTrait
         //}
 
         switch ($code) {
-            case IlluminateResponse::HTTP_NOT_FOUND:
-                $retval = $this->exceptionError($e->getMessageToShow(), $e->getErrors(), IlluminateResponse::HTTP_NOT_FOUND);
-                break;
-            case IlluminateResponse::HTTP_UNPROCESSABLE_ENTITY:
-                $retval = $this->exceptionError($e->getMessageToShow(), $e->getErrors(), IlluminateResponse::HTTP_UNPROCESSABLE_ENTITY);
-                break;
-            case IlluminateResponse::HTTP_BAD_REQUEST:
-                $retval = $this->exceptionError($e->getMessageToShow(), $e->getErrors(), IlluminateResponse::HTTP_BAD_REQUEST);
-                break;
-            case IlluminateResponse::HTTP_UNAUTHORIZED:
-                $retval = $this->exceptionError($e->getMessageToShow(), $e->getErrors(), IlluminateResponse::HTTP_UNAUTHORIZED);
-                break;
-            default:
-                $retval = $this->exceptionError($e->getMessageToShow(), $e->getErrors(), IlluminateResponse::HTTP_INTERNAL_SERVER_ERROR);
+        case IlluminateResponse::HTTP_NOT_FOUND:
+            $retval = $this->exceptionError($e->getMessageToShow(), $e->getErrors(), IlluminateResponse::HTTP_NOT_FOUND);
+            break;
+        case IlluminateResponse::HTTP_UNPROCESSABLE_ENTITY:
+            $retval = $this->exceptionError($e->getMessageToShow(), $e->getErrors(), IlluminateResponse::HTTP_UNPROCESSABLE_ENTITY);
+            break;
+        case IlluminateResponse::HTTP_BAD_REQUEST:
+            $retval = $this->exceptionError($e->getMessageToShow(), $e->getErrors(), IlluminateResponse::HTTP_BAD_REQUEST);
+            break;
+        case IlluminateResponse::HTTP_UNAUTHORIZED:
+            $retval = $this->exceptionError($e->getMessageToShow(), $e->getErrors(), IlluminateResponse::HTTP_UNAUTHORIZED);
+            break;
+        default:
+            $retval = $this->exceptionError($e->getMessageToShow(), $e->getErrors(), IlluminateResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
         
         return $retval;
@@ -72,45 +72,49 @@ trait RestExceptionHandlerTrait
     /**
      * Returns json response for generic bad request.
      *
-     * @param string $message
-     * @param array $errors
-     * @param integer $statusCode
+     * @param  string  $message
+     * @param  array   $errors
+     * @param  integer $statusCode
      * @return \Illuminate\Http\JsonResponse
      */
     protected function exceptionError($message = "Something was wrong", $errors = [], $statusCode = IlluminateResponse::HTTP_INTERNAL_SERVER_ERROR)
     {
-        return $this->jsonResponse([
+        return $this->jsonResponse(
+            [
             'message' => $message,
             'errors' => $errors
-        ], $statusCode);
+            ], $statusCode
+        );
     }
 
       /**
-     * Returns json response for generic bad request.
-     *
-     * @param string $message
-     * @param array $errors
-     * @param integer $statusCode
-     * @return \Illuminate\Http\JsonResponse
-     */
+       * Returns json response for generic bad request.
+       *
+       * @param  string  $message
+       * @param  array   $errors
+       * @param  integer $statusCode
+       * @return \Illuminate\Http\JsonResponse
+       */
     protected function exceptionErrorPasswordExpired($email, $token, $message = "Something was wrong", $errors = [], $statusCode = IlluminateResponse::HTTP_INTERNAL_SERVER_ERROR)
     {
-        return $this->jsonResponse([
+        return $this->jsonResponse(
+            [
             'message' => $message,
             'errors' => $errors,
             'token' => $token,
             'email' => $email,
-        ], $statusCode);
+            ], $statusCode
+        );
     }
 
 
        /**
-     * Returns json response.
-     *
-     * @param array|null $payload
-     * @param int $statusCode
-     * @return \Illuminate\Http\JsonResponse
-     */
+        * Returns json response.
+        *
+        * @param  array|null $payload
+        * @param  int        $statusCode
+        * @return \Illuminate\Http\JsonResponse
+        */
     protected function jsonResponse(array $payload = null, $statusCode = 404)
     {
         $payload = $payload ?: [];

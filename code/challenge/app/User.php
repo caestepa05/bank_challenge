@@ -34,10 +34,10 @@ class User extends Authenticatable
      *
      * @param type $password
      */
-     public function setPasswordAttribute($password)
-     {
-         if (!is_null($password) && Hash::needsRehash($password)) {
-             $this->attributes['password'] = Hash::make($password);
-         }
-     }
+    public function setPasswordAttribute($password)
+    {
+        if (!is_null($password) && Hash::needsRehash($password)) {
+            $this->attributes['password'] = Hash::make($password);
+        }
+    }
 }

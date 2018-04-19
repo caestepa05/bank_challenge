@@ -46,82 +46,82 @@ class Challenge extends Command
         $this->createFrontendAdminKey();
         
         $this->createSuperUserAdminKey();
-   }
+    }
 
-   public function createFrontendAdminKey()
-   {
+    public function createFrontendAdminKey()
+    {
 
-       $username      = 'challenge';
-       $oauth_clients = DB::table('oauth_clients')->where('name', '=', $username)->get(['*']);
+        $username      = 'challenge';
+        $oauth_clients = DB::table('oauth_clients')->where('name', '=', $username)->get(['*']);
        
-       if (count($oauth_clients) > 0) {
-           $this->info('The frontend app already is created');
-           return;
-       }
+        if (count($oauth_clients) > 0) {
+            $this->info('The frontend app already is created');
+            return;
+        }
 
-       $redirect = Config::get('app.url');
+        $redirect = Config::get('app.url');
       
-       if (is_null($redirect)) {
-           $this->info('The url is not set');
-           return;
-       }
+        if (is_null($redirect)) {
+            $this->info('The url is not set');
+            return;
+        }
 
-       DB::beginTransaction();
-       try {
-           $clients = new ClientRepository();
-           $client  = $clients->createPasswordGrantClient(
-               1,
-               $username,
-               $redirect
-           );
+        DB::beginTransaction();
+        try {
+            $clients = new ClientRepository();
+            $client  = $clients->createPasswordGrantClient(
+                1,
+                $username,
+                $redirect
+            );
 
-           DB::commit();
+            DB::commit();
            
-           $this->info('Frontend secret: ' . $client->secret);
-       } catch (\Exception $e) {
-           Log::error($e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine());
-           $this->info('Error' . $e->getMessage());
-           DB::rollback();
-       }
-   }
+            $this->info('Frontend secret: ' . $client->secret);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine());
+            $this->info('Error' . $e->getMessage());
+            DB::rollback();
+        }
+    }
 
-   public function createSuperUserAdminKey()
-   {
-       $email = Config::get('app.su_email');
-       $super = DB::table('users')->where('email', $email)->first();
+    public function createSuperUserAdminKey()
+    {
+        $email = Config::get('app.su_email');
+        $super = DB::table('users')->where('email', $email)->first();
        
-       if ($super) {
-           $this->info('The super user already exists');
-           return;
-       }
+        if ($super) {
+            $this->info('The super user already exists');
+            return;
+        }
 
-       $pass       = Config::get('app.su_pass');
-       $username   = Config::get('app.su_name');
+        $pass       = Config::get('app.su_pass');
+        $username   = Config::get('app.su_name');
 
-       if (is_null($pass) || is_null($username)) {
-           $this->info('Name and password are not set');
-           return;
-       }
+        if (is_null($pass) || is_null($username)) {
+            $this->info('Name and password are not set');
+            return;
+        }
 
-       DB::beginTransaction();
-       try {
+        DB::beginTransaction();
+        try {
            
-           $user = User::create(
-               [
-               'name' => $username,
-               'password' => $pass,
-               'email' => $email
-               ]
-           );
+            $user = User::create(
+                [
+                'name' => $username,
+                'password' => $pass,
+                'email' => $email
+                ]
+            );
 
 
-           DB::commit();
-           $this->info('Super User created');
-       } catch (\Exception $e) {
-           Log::error($e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine());
-           $this->info('Error' . $e->getMessage());
-           DB::rollback();
-       }
-   }
+            DB::commit();
+            $this->info('Super User created');
+        } catch (\Exception $e) {
+            Log::error($e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine());
+            $this->info('Error' . $e->getMessage());
+            DB::rollback();
+        }
+    }
     
 }

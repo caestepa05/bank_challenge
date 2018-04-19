@@ -47,7 +47,8 @@ class LoansService
         }
     }
 
-    public function getLoans($from= null, $to = null){
+    public function getLoans($from= null, $to = null)
+    {
         try{
 
             $filter = Loans::whereBetween('date', [$from, $to])->get(['id', 'amount', 'term', 'rate', 'date']);
@@ -59,7 +60,8 @@ class LoansService
         }
     }
 
-    public function createPayment($data, $loan_id){
+    public function createPayment($data, $loan_id)
+    {
         try{
             $validator = Validator::make($data, Payments::$newPayment);
             if ($validator->fails()) {
@@ -68,26 +70,23 @@ class LoansService
 
             $loan = Loans::find($loan_id);
 
-            if(!$loan)
-            {
+            if(!$loan) {
                 throw new ChallengeException('Loan not found', 422, ['The loan id :' . $loan_id . ' was not found']);
             }
             
             //Validate payment date
             $paymentDate = date_create_from_format('Y-m-d H:i\Z', $data['date']);
             
-            if($paymentDate <= $loan->getRawDate()){
+            if($paymentDate <= $loan->getRawDate()) {
                 throw new ChallengeException('The date is invalid', 422, ['The date must be after the date ' . $loan->date]);
             }
             
             //Validate payment balance
-            if($loan->getCurrentBalance() <= 0)
-            {
+            if($loan->getCurrentBalance() <= 0) {
                 throw new ChallengeException('The loan already was canceled.', 422, []);
             }
 
-            if($loan->thereIsPaymentForDate($paymentDate))
-            {
+            if($loan->thereIsPaymentForDate($paymentDate)) {
                 throw new ChallengeException('A payment has already been registered for the date.', 422, []);
             }
           
@@ -111,12 +110,11 @@ class LoansService
     {
         $loan = Loans::find($loan_id);
         
-        if(!$loan)
-        {
+        if(!$loan) {
             throw new ChallengeException('Loan not found', 422, ['The loan id :' . $loan_id . ' was not found']);
         }
 
-        if(!$date){
+        if(!$date) {
             $balance = $loan->getCurrentBalance();
         }else{
             $balance = $loan->getBalanceUntilDate($date);

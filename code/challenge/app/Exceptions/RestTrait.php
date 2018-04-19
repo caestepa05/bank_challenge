@@ -12,7 +12,7 @@ trait RestTrait
      *
      * If the request URI contains '/api/'.
      *
-     * @param Request $request
+     * @param  Request $request
      * @return bool
      */
     protected function isApiCall(Request $request)

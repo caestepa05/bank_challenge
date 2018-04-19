@@ -62,96 +62,97 @@ class Loans extends Model
      *
      * @param type $date
      */
-     public function setDateAttribute($date)
-     {
-        $this->attributes['date'] = date_create_from_format('Y-m-d H:i\Z',$date);   
-     }
+    public function setDateAttribute($date)
+    {
+        $this->attributes['date'] = date_create_from_format('Y-m-d H:i\Z', $date);   
+    }
 
      /**
-     * Date mutator
-     *
-     */
-     public function getDateAttribute()
-     {  
+      * Date mutator
+      */
+    public function getDateAttribute()
+    {  
         $date = strtotime($this->attributes['date']);  
-        return date('Y-m-d H:i\Z',$date);
-     }
+        return date('Y-m-d H:i\Z', $date);
+    }
 
-     public function getRawDate()
-     {
-        $date = date_create_from_format('Y-m-d H:i:s',$this->attributes['date']);  
+    public function getRawDate()
+    {
+        $date = date_create_from_format('Y-m-d H:i:s', $this->attributes['date']);  
         return $date;
-     }
+    }
 
      /**
-     * Relation with payments
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany
-     */
-     public function payments()
-     {
-         return $this->hasMany(\App\Models\Payments::class, 'loan_id');
-     }
+      * Relation with payments
+      *
+      * @return \Illuminate\Database\Eloquent\Relations\hasMany
+      */
+    public function payments()
+    {
+        return $this->hasMany(\App\Models\Payments::class, 'loan_id');
+    }
 
      /**
-     * Function to calculate installment
-     */
-     public function installment(){
+      * Function to calculate installment
+      */
+    public function installment()
+    {
         $r = $this->rate/12;
         $term = $this->term;
         $amount = $this->amount;
-        return round(($r + $r / ( pow(1+$r, $term)- 1))*$amount,2);
-     }
+        return round(($r + $r / ( pow(1+$r, $term)- 1))*$amount, 2);
+    }
 
 
      /**
-     * Function to get the balance
-     */
-     public function getCurrentBalance()
-     {
+      * Function to get the balance
+      */
+    public function getCurrentBalance()
+    {
         $allPayments = $this->payments();
         $total = $this->installment()*$this->term;
         foreach($allPayments as $payment)
         {
-            if($payment->payment == 'made'){
+            if($payment->payment == 'made') {
                 $total = $total - $payment->amount; 
             }
         }
 
         return $total;
-     }
+    }
 
-     public function getBalanceUntilDate($date)
-     {
+    public function getBalanceUntilDate($date)
+    {
         $allPayments = $this->payments()->where('date', '<=', $date);
         $total = $this->installment()*$this->term;
         foreach($allPayments as $payment)
         {
-            if($payment->payment == 'made'){
+            if($payment->payment == 'made') {
                 $total = $total - $payment->amount; 
             }
         }
 
         return $total;
-     }
+    }
 
 
      /**
-     * Function to check if there is some payment registered for a
-     * particular date.
-     */
-     public function thereIsPaymentForDate($date){
+      * Function to check if there is some payment registered for a
+      * particular date.
+      */
+    public function thereIsPaymentForDate($date)
+    {
         $paymentsRegisters = $this->payments()
-                                  ->whereMonth('date', '=', $date->format('m'))
-                                  ->whereYear('date', '=', $date->format('Y'))
-                                  ->count();
+            ->whereMonth('date', '=', $date->format('m'))
+            ->whereYear('date', '=', $date->format('Y'))
+            ->count();
         
-        if($paymentsRegisters > 0){
+        if($paymentsRegisters > 0) {
             return true;
         }
 
         return false;
-     }
+    }
 
 
 }

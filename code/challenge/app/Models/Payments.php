@@ -57,20 +57,19 @@ class Payments extends Model
      *
      * @param type $date
      */
-     public function setDateAttribute($date)
-     {
-        $this->attributes['date'] = date_create_from_format('Y-m-d H:i\Z',$date);   
-     }
+    public function setDateAttribute($date)
+    {
+        $this->attributes['date'] = date_create_from_format('Y-m-d H:i\Z', $date);   
+    }
 
      /**
-     * Date mutator
-     *
-     */
-     public function getDateAttribute()
-     {  
+      * Date mutator
+      */
+    public function getDateAttribute()
+    {  
         $date = strtotime($this->attributes['date']);  
-        return date('Y-m-d H:i\Z',$date);
-     }
+        return date('Y-m-d H:i\Z', $date);
+    }
 
       
     /**

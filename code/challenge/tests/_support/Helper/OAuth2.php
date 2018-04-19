@@ -44,7 +44,8 @@ class OAuth2 extends \Codeception\Module
 
     /**
      * Logs in to the system using OAuth2
-     * @param type $data
+     *
+     * @param  type $data
      * @return boolean
      */
     public function loginAuth2($data, $code_expected = 200)
@@ -54,14 +55,16 @@ class OAuth2 extends \Codeception\Module
         // $previus_url = $rest->_getConfig('url');
         // $rest->_reconfigure(['url' => '']);
         $rest->haveHttpHeader('Content-Type', 'application/json');
-        $rest->sendPOST('/oauth/token', [
+        $rest->sendPOST(
+            '/oauth/token', [
             'grant_type' => 'password',
             'client_id' => 3,
             'client_secret' => 'secret',
             'username' => $data['username'],
             'password' => $data['password'],
             'scope' => '*'
-        ]);
+            ]
+        );
         $rest->seeResponseCodeIs($code_expected);
         $rest->seeResponseIsJSON();
         // $rest->_reconfigure(['url' => $previus_url]);
@@ -80,8 +83,8 @@ class OAuth2 extends \Codeception\Module
      * Sends a post thru autenticated
      *
      * @param string $url
-     * @param array $params
-     * @param array $files
+     * @param array  $params
+     * @param array  $files
      */
     public function sendPOST($url, $params = [], $files = [])
     {
@@ -95,8 +98,8 @@ class OAuth2 extends \Codeception\Module
      * Sends a patch to the url with oAuth2
      *
      * @param string $url
-     * @param array $params
-     * @param array $files
+     * @param array  $params
+     * @param array  $files
      */
     public function sendPATCH($url, $params = [], $files = [])
     {
@@ -110,7 +113,7 @@ class OAuth2 extends \Codeception\Module
      * Sends a get with oAuth2
      *
      * @param string $url
-     * @param array $params
+     * @param array  $params
      */
     public function sendGET($url, $params = [])
     {
@@ -124,8 +127,8 @@ class OAuth2 extends \Codeception\Module
      * Sends a DELETE request with oAuth2
      *
      * @param string $url
-     * @param array $params
-     * @param array $files
+     * @param array  $params
+     * @param array  $files
      */
     public function sendDELETE($url, $params = [], $files = [])
     {
@@ -138,8 +141,8 @@ class OAuth2 extends \Codeception\Module
     /**
      *
      * @param string $url
-     * @param array $params
-     * @param array $files
+     * @param array  $params
+     * @param array  $files
      */
     public function sendPUT($url, $params = [], $files = [])
     {

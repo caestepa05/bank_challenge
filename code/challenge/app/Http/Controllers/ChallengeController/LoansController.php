@@ -10,15 +10,15 @@ class LoansController extends RestFullController
 {
 
     /**
-    *
-    * @var LoansService
-    */
+     *
+     * @var LoansService
+     */
     private $loansService;
      
     /**
-    *
-    * @param LoansService $service
-    */
+     *
+     * @param LoansService $service
+     */
     public function __construct(LoansService $service)
     {
         $this->loansService = $service;
@@ -33,45 +33,45 @@ class LoansController extends RestFullController
      *   description="Archive one or more objects",
      *   operationId="",
      *   produces={"application/json"},
-     *   @SWG\Parameter(
+     * @SWG\Parameter(
      *     in="path",
      *     name="model",
      *     type="string",
      *     description="Entity name to archived (users, venues, etc.)",
      *     required=true,
      *   ),
-     *   @SWG\Parameter(
+     * @SWG\Parameter(
      *     in="body",
      *     name="body",
      *     description="JSON Object. Structure",
      *     required=true,
-     *     @SWG\Schema (
-     *              @SWG\Property(
+     * @SWG\Schema (
+     * @SWG\Property(
      *                            property="objects",
      *                            type="array",
-     *                            @SWG\Items(
+     * @SWG\Items(
      *                                type="object",
-     *                                @SWG\Property(property="id", type="number",default=1),
+     * @SWG\Property(property="id", type="number",default=1),
      *                            ),
      *              ),
      *      ),
      *   ),
-     *   @SWG\Response(response=200, description="successfull operation")),
-     *   @SWG\Response(response=500, description="server error"),
-     *   @SWG\Response(response=422, description="validation failed")
+     * @SWG\Response(response=200, description="successfull operation")),
+     * @SWG\Response(response=500, description="server error"),
+     * @SWG\Response(response=422, description="validation failed")
      * )
      */
-     public function createLoan(Request $request)
-     {
+    public function createLoan(Request $request)
+    {
          
         $data = $this->loansService->processLoan($request->all());
 
         return $data;
          
-     }
+    }
 
-     public function getLoans(Request $request)
-     {
+    public function getLoans(Request $request)
+    {
 
         $from = null;
         $to = null;
@@ -87,17 +87,17 @@ class LoansController extends RestFullController
 
         return $data;
          
-     }
+    }
 
-     public function createPayment(Request $request, $loan_id)
-     {
+    public function createPayment(Request $request, $loan_id)
+    {
         $data = $this->loansService->createPayment($request->all(), $loan_id);
         
         return $data;
-     }
+    }
 
-     public function getBalance(Request $request, $loan_id)
-     {
+    public function getBalance(Request $request, $loan_id)
+    {
         
         $date = null;
         if ($request->has('date')) {
@@ -107,6 +107,6 @@ class LoansController extends RestFullController
         $data = $this->loansService->getLoansBalance($loan_id, $date);
         
         return $data;
-     }
+    }
      
 }

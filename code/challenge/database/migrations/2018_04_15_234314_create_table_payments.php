@@ -13,13 +13,15 @@ class CreateTablePayments extends Migration
      */
     public function up()
     {
-        Schema::create('payments', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('loan_id')->unsigned();
-            $table->string('payment');
-            $table->float('amount');
-            $table->dateTime('date');
-        });
+        Schema::create(
+            'payments', function (Blueprint $table) {
+                $table->increments('id');
+                $table->integer('loan_id')->unsigned();
+                $table->string('payment');
+                $table->float('amount');
+                $table->dateTime('date');
+            }
+        );
     }
 
     /**

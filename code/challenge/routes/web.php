@@ -11,7 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return die(phpinfo());
-    //return view('welcome');
-});
+Route::get(
+    '/', function () {
+        return die(phpinfo());
+        //return view('welcome');
+    }
+);
