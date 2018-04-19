@@ -23,13 +23,7 @@ trait RestExceptionHandlerTrait
     {
         $code = $e->getStatusCode();
 
-        //$tokenReset = $e->getResetToken();
-        //if (!is_null($tokenReset)) {
-        //    $email  = $e->getResetEmail();
-        //    $retval = $this->exceptionErrorPasswordExpired($email, $tokenReset, $e->getMessageToShow(), $e->getErrors(), IlluminateResponse::HTTP_UNAUTHORIZED);
-        //    return $retval;
-        //}
-
+        
         switch ($code) {
         case IlluminateResponse::HTTP_NOT_FOUND:
             $retval = $this->exceptionError($e->getMessageToShow(), $e->getErrors(), IlluminateResponse::HTTP_NOT_FOUND);
@@ -61,9 +55,7 @@ trait RestExceptionHandlerTrait
             return $this->unauthenticated($request, $e);
         } elseif ($e instanceof ValidationException) {
             return $this->convertValidationExceptionToResponse($e, $request);
-        } /*elseif($e instanceof GoShowException) {
-            return $this->getResponseForException($request, $e);
-        }*/
+        } 
 
         return $this->prepareResponse($request, $e);
     }
