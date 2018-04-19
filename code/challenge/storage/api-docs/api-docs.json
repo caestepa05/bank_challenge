@@ -1,0 +1,57 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Bank Challenge",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/loans": {
+            "post": {
+                "tags": [
+                    "Loans"
+                ],
+                "summary": "Create a new loan",
+                "description": "",
+                "operationId": "loans.create",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Data parameter",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "amount": {
+                                    "type": "float",
+                                    "example": 10000
+                                },
+                                "term": {
+                                    "type": "integer",
+                                    "example": 12
+                                },
+                                "rate": {
+                                    "type": "float",
+                                    "example": 0.05
+                                },
+                                "date": {
+                                    "description": "Format required is Y-m-d H:i\\Z",
+                                    "type": "string",
+                                    "example": "2016-08-05 02:18Z"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {}
+}

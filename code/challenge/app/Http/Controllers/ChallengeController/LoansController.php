@@ -26,39 +26,52 @@ class LoansController extends RestFullController
 
 
 
+ /**
+     * @SWG\Swagger(
+     *   @SWG\Info(
+     *     title="Bank Challenge",
+     *     version="1.0.0"
+     *   )
+     * )
+     */
+
     /**
-     * @SWG\Post(path="/{model}/archive",
-     *   tags={"CommonActions"},
-     *   summary="Archive objects",
-     *   description="Archive one or more objects",
-     *   operationId="",
+     * @SWG\Post(path="/api/loans",
+     *   tags={"Loans"},
+     *   summary="Create a new loan",
+     *   description="",
+     *   operationId="loans.create",
      *   produces={"application/json"},
-     * @SWG\Parameter(
-     *     in="path",
-     *     name="model",
-     *     type="string",
-     *     description="Entity name to archived (users, venues, etc.)",
-     *     required=true,
-     *   ),
-     * @SWG\Parameter(
+     *   @SWG\Parameter(
      *     in="body",
      *     name="body",
-     *     description="JSON Object. Structure",
+     *     description="Data parameter",
      *     required=true,
-     * @SWG\Schema (
-     * @SWG\Property(
-     *                            property="objects",
-     *                            type="array",
-     * @SWG\Items(
-     *                                type="object",
-     * @SWG\Property(property="id", type="number",default=1),
-     *                            ),
-     *              ),
-     *      ),
+     *     @SWG\Schema(
+     *       @SWG\Property(
+     *         property="amount",
+     *         type="float",
+     *         example=10000
+     *       ),
+     *     @SWG\Property(
+     *         property="term",
+     *         type="integer",
+     *         example=12
+     *       ),
+     *     @SWG\Property(
+     *         property="rate",
+     *         type="float",
+     *         example=0.05
+     *       ),
+     *     @SWG\Property(
+     *         property="date",
+     *         description="Format required is Y-m-d H:i\Z",
+     *         type="string",
+     *         example="2016-08-05 02:18Z"
+     *       )
+     *     )
      *   ),
-     * @SWG\Response(response=200, description="successfull operation")),
-     * @SWG\Response(response=500, description="server error"),
-     * @SWG\Response(response=422, description="validation failed")
+     *   @SWG\Response(response="default", description="successful")
      * )
      */
     public function createLoan(Request $request)
